@@ -28,7 +28,6 @@ const cors = require('cors');
 app.use(cors()); // avoids cors errors
 app.use(express.json());
 
-// adds graphql middleware
 // GRAPHQL SCHEMAS
 const BaseCardType = new GraphQLObjectType({
   name: 'BaseCard',
@@ -68,23 +67,7 @@ const RootQuery = new GraphQLObjectType({
   },
 });
 
-// GRAPHQL MUTATIONS
-const Mutation = new GraphQLObjectType({
-  name: 'Mutation',
-  fields: {
-    createCard: {
-      type: BaseCardType,
-      args: {
-        _id: { type: GraphQLInt },
-        url: { type: GraphQLString },
-      },
-      resolve(parent, args) {
-        return args;
-      },
-    },
-  },
-});
-const schema = new GraphQLSchema({ query: RootQuery, mutation: Mutation });
+const schema = new GraphQLSchema({ query: RootQuery });
 app.use(
   '/graphql',
   graphqlHTTP({
